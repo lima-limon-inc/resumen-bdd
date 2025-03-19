@@ -1,0 +1,42 @@
+#+title: resumen
+
+* Modelo logico relacional
+
+- Paso intermedio entre el modelo conceptual y el interno
+- Se basa en *las relaciones*. Nada mas
+
+** Definiciones
+*** Dominio
+Conjunto de valores homogeneos
+*** Producto cartesiano
+Conjunto de todos los pares posibles entre los dominios
+*** Relacion
+*Subconjunto del producto cartesino*
+*** Atributo
+Miembros de la relacion.
+*** Tupla
+Una instancia de una relacion
+*** Cardinalidad
+Cantidad de tuplas de una relacion
+*** Superclave
+Subconjunto dentro de los atributos en un mismo tipo de tupla que *si o si* van a difererir.
+*** Clave candidato
+Un subconjunto de la superclave que es minimal.
+*** Clave primaria
+Algun elemento *arbitrario* de las claves candidatas que se usa como clave identificable "principal".
+
+** Representacion
+La representacion canonica de este modelo es el de la tabla. Cada atributo de la relacion es una columna y cada tupla una fila.
+
+** Restricciones
+*** Dominio
+- Un valor debe pertenecer al dominio del atributo. No podes poner un string en una columna donde van ints.
+- Se admiten ~NULL~ s
+*** Unicidad
+- No puede haber dos o mas tuplas iguales, cada tupla debe ser unica.
+- Si no tenes ninguna superclave natural, podes generar un ID para poder distinguir las tuplas.
+  - Pros:
+    - Siempre funciona para diferenciar una tupla de otra.
+  - Contra:
+    - La BDD tiene que manejar la generacion e incremento del ID
+    - El ID puede leaker informacion de order de ingreso a la BDD
