@@ -1,0 +1,2 @@
+*.org linguist-detectable
+*.tex -linguist-detectable

@@ -40,3 +40,27 @@ La representacion canonica de este modelo es el de la tabla. Cada atributo de la
   - Contra:
     - La BDD tiene que manejar la generacion e incremento del ID
     - El ID puede leaker informacion de order de ingreso a la BDD
+*** Integridad de Entidad
+La clave primaria *no* puede tomar valores nulos
+
+*** Integridad de Referencial
+Cuando se usa un valor de una tupla fuera de su origen (es decir, se una foreign key), ese valor *tiene que pertenecer al conjunto de la relacion*; no puede tomar *otro valor del dominio*.
+
+Es decir, si vos usas un valor de tabla A como foreign key en tabla B, ese valor tiene que estar en la tabla A. No podes usar un valor que no este en la tabla aunque sea del mismo tipo
+
+** Operaciones
+Hay 4 operaciones. Algunas operaciones /pueden/ romper las restricciones del y en ese caso romper la integridad.
+
+La siguiente tabla muestra que restricciones pueden romper cada operacion.
+
+| Operacion    | Dominio | Unicidad | Int. Entidad | Int. Referencial |
+|--------------+---------+----------+--------------+------------------|
+| Consulta     | No      | No       | No           | No               |
+| Eliminacion  | No      | No       | No           | Depende[fn:1]    |
+| Insercion    | Si      | Si       | Si           | Depende[fn:2]    |
+| Modificacion | Si      | Si       | Si           | Si               |
+
+* Footnotes
+[fn:2] Si la tupla que insertas usa de Foreign Key un valor que no existe, entonces si
+
+[fn:1] Si la tupla que borras es la Foreign Key de otra tupla, entonces si se puede romper
