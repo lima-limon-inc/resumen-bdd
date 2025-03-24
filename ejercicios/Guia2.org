@@ -1,0 +1,49 @@
+#+title: Guia 2
+
+* Ejercicio 1
+(Pasaje de modelo) Para los siguientes diagramas Entidad-Interrelacíon, realice el pasaje al modelo relacional indicando para cada relacíon cúales son las claves primarias, claves candidatas, claves foŕaneas y atributos descriptivos.
+
+** A
+[[file:../imagenes/A.png]]
+
+| Relacion                   | Claves Candidatas | Claves primarias | Claves foraneas          |
+|----------------------------+-------------------+------------------+--------------------------|
+| A (A1, A2, idA)           | {{idA}}           | {idA}            |                          |
+| B (idA, discB, B1, E1, E2) | {{idA, discB}}    | {idA, discB}     | {idA}                    |
+| C (C1, C2, idC)           | {{idC}}           | {idC}            |                          |
+| D (idD)                    | {{idD}}           | {idD}            |                          |
+| F (idA, discB, idD, idD')  | {{idD, discB}}    | {idD, discB}     | {discB},  {idD} , {idD'} |
+| G (idA, idC)               | {{idA}}           | {idA}            | {idC}, {idA}             |
+| H (idA, idA', discB, H1)   | {{idA, discB}}    | {idA, discB}     | {idA, discB}             |
+| I (idD, idD')              | {{idD}, {idD'}}   | {idD}            | {idD} , {idD'}           |
+*** Inter relaciones
+**** C G A
+Es un ejemplo de participacion parcial.
+C puede tener 1 o mas A
+A puede tener 0 o 1 C
+
+**** A E B
+Es un ejemplo de entidad debil.
+A es la fuerte
+B es la debil.
+
+NO creas una relacion para E, porque esa relacion de debilidad ya va a englobar los atributos de E. Son como atributos de debilidad por decirlo de alguna manera.
+
+**** A H B
+Necesitas tanto de idA como de idB en este caso.
+¿Por que? Porque tanto A como B es de muchos a muchos. Necesitas de ambos IDs para reconocer una *instncia particular del vinculo*.
+
+*OJO*: Como B es debil, no podes identificar a B con su discriminante. Entonces necesitas de un idA' para poder identificar a ese B.
+
+**** D I D
+Creas la relacion I. Las claves candidatas son d como tambien d prima; cualquiera puede serlo.
+Como ambas son parciales, no pasa nada.
+
+Lo malo de modelarlo con una relacion I, es que en el gestor de bases de datos tenes que anadir el chequeo adicional de que solo haya una relacion como mucho; pero termina siendo mas versatil.
+
+**** B F D
+Aca vos creas una especie de relacion inventada llamada D prima. Es como el caso de N, N, 1.
+
+Las claves N, N van a formar clave primaria; ya que esa es la forma de identificar cada una de las posibles tuplas.
+Tenes que usar la parte con N para identificar "el dominio"
+

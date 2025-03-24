@@ -60,6 +60,22 @@ La siguiente tabla muestra que restricciones pueden romper cada operacion.
 | Insercion    | Si      | Si       | Si           | Depende[fn:2]    |
 | Modificacion | Si      | Si       | Si           | Si               |
 
+* Pasaje de Modelo
+** Piedra de rosetta
+*** N:1 participacion parcial
+Esto sucede cuando el minimo que puede tomar el lado del 1 es 0.
+
+Pasaje:
+1. Creas una relacion por cada entidad
+2. Creas una relacion por la inter relacion
+3. La relacion de la inter-relacion va a tener como clave primaria la clave primaria del lado de los muchos
+   1. ¿Por que? Porque entonces, los casos donde haya un 0 (es decir, no haya relacion) simplemente *no van a figurar en la relacion de la interrelacion*.
+*** Entidad debil
+1. Creas una relacion para la entidad debil.
+2. Le anadis la *clave primaria de su entidad fuete como clave foranea*.
+3. Ademas, la clave primaria va a ser *la tupla de su clave primaria con la clave foranea fuete*
+   1. ¿Por que? Porque necesitas de *ambos* para poder distinguir una instancia particular de la entidad debil.
+4. Si la inter relacion tiene atributos, anadis esos atributos como atributos de la entidad debil.
 * Footnotes
 [fn:2] Si la tupla que insertas usa de Foreign Key un valor que no existe, entonces si
 
