@@ -1,16 +1,17 @@
 #+title: Guia 2
+#+LATEX_HEADER: \usepackage[margin=0.5cm]{geometry} 
 
 * Ejercicio 1
 (Pasaje de modelo) Para los siguientes diagramas Entidad-Interrelacíon, realice el pasaje al modelo relacional indicando para cada relacíon cúales son las claves primarias, claves candidatas, claves foŕaneas y atributos descriptivos.
 
 ** A
-[[file:../imagenes/A.png]]
+[[file:../imagenes/Guia2-1-A.png]]
 
 | Relacion                   | Claves Candidatas | Claves primarias | Claves foraneas          |
 |----------------------------+-------------------+------------------+--------------------------|
-| A (A1, A2, idA)           | {{idA}}           | {idA}            |                          |
+| A (A1, A2, idA)            | {{idA}}           | {idA}            |                          |
 | B (idA, discB, B1, E1, E2) | {{idA, discB}}    | {idA, discB}     | {idA}                    |
-| C (C1, C2, idC)           | {{idC}}           | {idC}            |                          |
+| C (C1, C2, idC)            | {{idC}}           | {idC}            |                          |
 | D (idD)                    | {{idD}}           | {idD}            |                          |
 | F (idA, discB, idD, idD')  | {{idD, discB}}    | {idD, discB}     | {discB},  {idD} , {idD'} |
 | G (idA, idC)               | {{idA}}           | {idA}            | {idC}, {idA}             |
@@ -47,3 +48,36 @@ Aca vos creas una especie de relacion inventada llamada D prima. Es como el caso
 Las claves N, N van a formar clave primaria; ya que esa es la forma de identificar cada una de las posibles tuplas.
 Tenes que usar la parte con N para identificar "el dominio"
 
+** B
+[[file:../imagenes/Guia2-1-B.png]]
+
+#+ATTR_LATEX: :placement [h] :center t
+| Relacion                               | Claves Candidatas                          | Claves primarias | Claves foraneas         |
+|----------------------------------------+--------------------------------------------+------------------+-------------------------|
+| A (idA, A1)                            | {{idA}}                                    | {idA}            |                         |
+| B (idA)                                | {{idA}}                                    | {idA}            | idA                     |
+| C (idA, C1, C2)                        | {{idA}}                                    | {idA}            | idA                     |
+| D (idA, D1)                            | {{idA}}                                    | {idA}            | idA                     |
+| F (idAd, discF, F1, F2, E1)            | {{idAd, discF}}                            | {idAb, discF}    | idAd ref D              |
+| G (idAd, discF, idAd', discF', G1, G2) | {{idAd, discF}}                            | {idAb, discF}    | idAd ref D, idAd' ref D |
+| H (idI1, idAb, idAc)                   | {{idI1, idAb}, {idAc, idAb}, {idI1, idAc}} | {idI1, idA1}     | idAb r B, idAc r C      |
+| I (idI1, idI2, I1)                     | {{idI1}, {idI2}}                           | {idI1}           |                         |
+
+*** A B D C
+Esto es una relacion de jerarquia disjunta.
+Quiere decir que todos los B son A, todos los D son A; pero no hay B que sea D.
+
+Voy a usar la estrategia de crear una relacion para todo.
+
+*** C I B H
+Aca es una relacion ternaria 1, 1, 1. Eso significa que cada par de entidades solo se realciona con una unica identidad.
+*PERO* no quiere decir que solo puedas usar un identificador como clave, cada uno de los elementos forma una tupla unica
+
+*** D E F
+Es un ejemplo de relacion debil.
+Para determinar un F necesito un D. 
+
+*** F G F'
+Voy a decir que F es la entidad de 1,N y F' es la de 0,1
+
+Este es un caso como el de "es padre de"
