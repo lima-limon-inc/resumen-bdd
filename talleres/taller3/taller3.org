@@ -1,0 +1,59 @@
+
+#+title: taller 3
+* Consignas
+** Mostrar los actores cuyo nombre sea Brad.
+σactors.first_name = 'Brad'actors
+** Mostrar el nombre y apellido de directores catalogados cono de ’Sci-Fi’ (ciencia ficci ́on) con una probabilidad mayor igual a 0.5.
+SCIFI = σ directors_genres.genre = 'Sci-Fi' directors_genres
+LIKELY = σ directors_genres.prob >= 0.5 SCIFI
+FULLDIR = directors ⨝ directors_genres.director_id = directors.id LIKELY
+π directors.first_name, directors.last_name FULLDIR
+** Mostrar los nombres de las pel ́ıculas filmadas por James(I) Cameron que figuren en la base.
+JCID = σ first_name = 'James (I)' ∧ last_name = 'Cameron' directors
+MOVIESID = πmovies_directors.movie_id (movies_directors ⨝ movies_directors.director_id = directors.id JCID)
+MOVIES = movies ⨝ movies.id = movies_directors.movie_id MOVIESID
+πmovies.name MOVIES
+** Mostrar los nombres y apellidos de las actrices que trabajaron en la pel ́ıcula ’Judgment at Nuremberg’
+MOVIE_ID = πid (σ movies.name = 'Judgment at Nuremberg' movies)
+ACTORSID = πactor_id (roles ⨝ movie_id = movies.id MOVIE_ID)
+ACTORS = actors ⨝ actors.id = roles.actor_id ACTORSID
+π actors.first_name, actors.last_name ACTORS
+** Directores que abarcaron, al menos, los mismos g ́eneros que Welles (g ́eneros en direc- tores).
+WELLES_ID = π id σ last_name = 'Welles' directors
+WEL_GEN = π genre (directors_genres ⨝ director_id = directors.id WELLES_ID)
+GENRES = π director_id, genre directors_genres
+IDS = GENRES ÷ WEL_GEN
+
+/* No dice "Nombre de", asique dejo toda la fila */
+directors ⨝ director_id = id IDS
+** Muestre los actores que trabajaron en todas las pel ́ıculas de Woody Allen de la base. Cuantas pel ́ıculas de este director hay en la base?
+WOODY_ID = πid σ first_name = 'Woody' ∧ last_name = 'Allen' directors
+
+WOODY_MOVIES_ID = πmovie_id (movies_directors⨝ director_id = directors.id WOODY_ID)
+
+ROLES = πactor_id, movie_id roles
+
+ROLES ÷ WOODY_MOVIES_ID
+** Actores que filmaron m ́as de una pel ́ıcula en alg ́un a ̃no a partir de 1999
+MOV99_ID = σ year >= 1999 movies
+
+ROL199 = roles ⨝ movie_id = movies.id MOV99_ID
+
+AUX_A = ρAUX_A(π roles.actor_id, movies.year ROL199)
+AUX_B = ρAUX_B(π roles.actor_id, movies.year ROL199)
+
+TUPLAS_PELIS_MULTIPLES = AUX_A ⨝ AUX_A.actor_id = AUX_B.actor_id ∧ AUX_A.year != AUX_B.year AUX_B
+
+ACTORES_MULTIPLES_PELIS = π AUX_A.actor_id TUPLAS_PELIS_MULTIPLES 
+
+actors ⨝ id = actor_id ACTORES_MULTIPLES_PELIS
+
+** Listar las pel ́ıculas del  ́ultimo a ̃no.
+A = ρA (movies)
+B = ρB (movies)
+
+σA.year > B.year (A⨯B)
+** Pel ́ıculas del director Spielberg en las que actu ́o Harrison (I) Ford.
+** Pel ́ıculas del director Spielberg en las que no actu ́o Harrison (I) Ford.
+** Pel ́ıculas en las que actu ́o Harrison (I) Ford que no dirigi ́o Spielberg.
+** Directores que filmaron pel ́ıculas de m ́as de tres g ́eneros distintos, uno de los cuales sea ’Film-Noir’.
